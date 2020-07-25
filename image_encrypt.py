@@ -26,5 +26,5 @@ def image_enc(path, mode, key):
 
 t = time.process_time()
 key = "12345678"
-image_enc("test2_e.png", 'd', key)
+image_enc("test2.jpg", 'e', key)
 print("Elapsed -", time.process_time() - t)

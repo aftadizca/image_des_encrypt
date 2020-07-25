@@ -4,6 +4,7 @@ from hex2dec import hex2dec
 from PIL import Image
 import convert as cvt
 import os
+import time
 
 
 def image_enc(path, mode, key):
@@ -23,5 +24,7 @@ def image_enc(path, mode, key):
     cvt.save_image(img_array, filename)
 
 
+t = time.process_time()
 key = "12345678"
 image_enc("test2_e.png", 'd', key)
+print("Elapsed -", time.process_time() - t)

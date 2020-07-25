@@ -1,8 +1,8 @@
 import numpy as np
 from PIL import Image
 
-h = 64
-w = 48
+h = 640
+w = 480
 
 
 def convert(path):

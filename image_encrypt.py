@@ -5,6 +5,7 @@ from PIL import Image
 import convert as cvt
 import os
 import multiprocessing
+from multiprocessing import shared_memory
 import time
 
 t = time.process_time()
@@ -22,7 +23,11 @@ def process_img(img_array, processed_px, i, k, mode):
 def image_enc(path, mode, key):
     k = bytes(key, encoding='utf-8').hex().upper()
     img_array = cvt.convert(path)
-    processed_px = np.empty(img_array.shape, dtype=img_array.dtype)
+
+    shm = shared_memory.SharedMemory(
+        create=True, size=img_array.nbytes, name='mysharedmem')
+    processed_px = np.ndarray(
+        img_array.shape, dtype=img_array.dtype, buffer=shm.buf)
 
     processes = []
     for i in range(0, cvt.h, 2):
@@ -38,8 +43,11 @@ def image_enc(path, mode, key):
 
     filename = os.path.splitext(filename)[0].replace("_e", "")+"_"+mode+".png"
     cvt.save_image(processed_px, os.path.join(cpath, filename))
+    shm.close()
+    shm.unlink()
 
 
 key = "12345678"
-image_enc("/opt/lampp/htdocs/test/scramble_image/test2.jpg", 'e', key)
+# image_enc("/opt/lampp/htdocs/test/scramble_image/test2.jpg", 'e', key)
+image_enc("test2.jpg", 'e', key)
 print("Elapsed -", time.process_time() - t)

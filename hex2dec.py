@@ -27,15 +27,8 @@ def hex2dec(text):
     a = np.array(a, dtype=np.uint8).reshape(2, 4)
     return a
 
-    a = []
-    for i in range(0, len(text), 2):
-        a.append(int(mp[text[i]])*16 + int(mp[text[i+1]]))
-
-    a = np.array(a, dtype=np.uint8).reshape(2, 4)
-    return a
-
 
 if __name__ == "__main__":
     s = 'C4DE7B0479FCFDAA'
-    print(hex2dec(s).tobytes().hex())
+    print(hex2dec(s))
     # print(bytes('12345678', encoding='utf-8').hex().upper())

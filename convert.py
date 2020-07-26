@@ -10,18 +10,13 @@ def convert(path):
     resized_img = img.resize((w, h))
 
     if img.format == "PNG":
-        print("Format PNG")
+        # print("Format PNG")
         return np.array(resized_img, dtype=np.uint8)
     else:
-        print("Format", img.format)
+        # print("Format", img.format)
         img_array = np.array(resized_img)
-        new_img_array = np.zeros((h, w, 4), dtype=np.uint8)
-
-        for i in range(h):
-            for j in range(w):
-                new_img_array[i, j] = np.append(img_array[i, j], [255])
-
-        return new_img_array
+        img_array = np.insert(img_array, 3, 255, axis=2)
+        return img_array
 
 
 def save_image(img_array, name):

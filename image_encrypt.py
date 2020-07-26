@@ -6,6 +6,9 @@ import convert as cvt
 import os
 import SharedArray
 import multiprocessing
+import time
+
+t = time.process_time()
 
 
 def process_img(img_array, processed_px, i, k, mode):
@@ -21,9 +24,13 @@ def image_enc(path, mode, key):
     k = bytes(key, encoding='utf-8').hex().upper()
     img_array = cvt.convert(path)
 
-    SharedArray.delete('processed_px')
-    processed_px = SharedArray.create(
-        'processed_px', img_array.shape, dtype=np.uint8)
+    try:
+        processed_px = SharedArray.create(
+            'processed_px', img_array.shape, dtype=np.uint8)
+    except FileExistsError:
+        SharedArray.delete('processed_px')
+        processed_px = SharedArray.create(
+            'processed_px', img_array.shape, dtype=np.uint8)
 
     processes = []
     for i in range(0, cvt.h, 2):
@@ -35,11 +42,13 @@ def image_enc(path, mode, key):
     for process in processes:
         process.join()
 
-    filename = os.path.splitext(os.path.basename(path))[
-        0].replace("_e", "")+"_"+mode+".png"
-    cvt.save_image(processed_px, filename)
+    cpath, filename = os.path.split(path)
+
+    filename = os.path.splitext(filename)[0].replace("_e", "")+"_"+mode+".png"
+    cvt.save_image(processed_px, os.path.join(cpath, filename))
     SharedArray.delete('processed_px')
 
 
 key = "12345678"
-image_enc("test2.jpg", 'e', key)
+image_enc("/opt/lampp/htdocs/test/scramble_image/test2.jpg", 'e', key)
+print("Elapsed -", time.process_time() - t)

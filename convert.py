@@ -1,27 +1,23 @@
 import numpy as np
 from PIL import Image
 
-h = 640
-w = 480
-
 
 def convert(path):
     img = Image.open(path)
-    resized_img = img.resize((w, h))
-
+    if img.size[0] != 480:
+        h = int(img.size[1]/img.size[0]*480)
+        if h % 2 == 0:
+            img = img.resize((480, h))
+        else:
+            img = img.resize((480, h+1))
     if img.format == "PNG":
-        print("Format PNG")
-        return np.array(resized_img, dtype=np.uint8)
+        # print("Format PNG")
+        return np.array(img, dtype=np.uint8)
     else:
-        print("Format", img.format)
-        img_array = np.array(resized_img)
-        new_img_array = np.zeros((h, w, 4), dtype=np.uint8)
-
-        for i in range(h):
-            for j in range(w):
-                new_img_array[i, j] = np.append(img_array[i, j], [255])
-
-        return new_img_array
+        # print("Format", img.format)
+        img_array = np.array(img, dtype=np.uint8)
+        img_array = np.insert(img_array, 3, 255, axis=2)
+        return img_array
 
 
 def save_image(img_array, name):

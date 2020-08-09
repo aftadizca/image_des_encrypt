@@ -51,12 +51,16 @@ from des import DesKey
 
 arr = np.array([100, 100, 100, 100, 100, 100, 100, 100], dtype=np.uint8)
 print(arr.dtype)
-print(arr.tobytes().hex())
+print(arr.tobytes())
 
 key0 = DesKey(b"12345678")
-a = key0.encrypt(arr.tobytes(), padding=True)
-print(a.hex())
-print(np.frombuffer(b'bbbb', dtype=np.uint8))
+a = key0.encrypt(arr.tobytes(), padding=False)
+print(a)
+print(np.frombuffer(a, dtype=np.uint8))
+
+a = key0.decrypt(a, padding=False)
+print(a)
+print(np.frombuffer(a, dtype=np.uint8))
 
 # image = Image.open(io.BytesIO(bytes(a)))
 # image.save("hlo.png")

@@ -15,7 +15,6 @@ def process_img(img_array, processed_px, i, k, mode):
     for j in range(0, img_array.shape[1], 2):
         px = np.append(img_array[i, j], img_array[i, j+1]
                        ).tobytes()
-
         des = DesKey(bytes(key, encoding="utf-8"))
         if mode == 'e':
             enc_x = des.encrypt(px, padding=False)
@@ -58,7 +57,7 @@ def image_enc(mode, path, key):
 if __name__ == "__main__":
     start = perf_counter()
     key = "12345678"
-    image_enc('e', 'download.jpeg', key)
+    image_enc('e', 'test2.jpg', key)
     end = perf_counter()
     print("elapsed : ", end - start, " second")
     # print(image_enc(sys.argv[1], sys.argv[2], sys.argv[3]))

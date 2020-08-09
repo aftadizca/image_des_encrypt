@@ -49,8 +49,12 @@ from des import DesKey
 #         print(i)
 #         # new_img_array[i, j] = np.append(img_array[i, j], [255])
 
-arr = np.array([100, 100, 100, 100, 100, 100, 100, 100], dtype=np.uint8)
-print(arr.dtype)
+arr1 = np.array([100, 100, 100, 100], dtype=np.uint8)
+arr2 = np.array([101, 101, 101, 101], dtype=np.uint8)
+arr = np.append(arr1, arr2)
+
+print(arr[0])
+print(arr.shape)
 print(arr.tobytes())
 
 key0 = DesKey(b"12345678")

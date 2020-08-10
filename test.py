@@ -14,8 +14,8 @@ print(arr.shape)
 qty = int(646/8)
 print(qty)
 
-for i in range(0, 646, qty):
+for i in range(1, 10):
     print(i)
 
 
-print(multiprocessing.cpu_count())
+# print(multiprocessing.cpu_count())

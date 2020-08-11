@@ -1,0 +1,10 @@
+autopep8==1.5.4
+cffi==1.14.0
+des==1.0.5
+greenlet==0.4.13
+numpy==1.19.1
+Pillow==7.2.0
+pycodestyle==2.6.0
+readline==6.2.4.1
+SharedArray==3.2.1
+toml==0.10.1

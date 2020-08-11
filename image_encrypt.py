@@ -20,13 +20,14 @@ def process_img(img_array, processed_px, i, qtyperprocess, k, mode, modulus=0):
             enc_x = des.encrypt(img_array[j].tobytes(), padding=False)
         else:
             enc_x = des.decrypt(img_array[j].tobytes(), padding=False)
+
         processed_px[j] = np.frombuffer(
-            enc_x, dtype=np.uint8).reshape((480, 4))
+            enc_x, dtype=np.uint8).reshape((img_array.shape[1], 4))
 
 
 def image_enc(mode, path, key):
     img_array = cvt.convert(path)
-    # print("Image shape : ", img_array.shape)
+    print("Image shape : ", img_array.shape)
 
     # # initialize shared memory
     # shm = shared_memory.SharedMemory(
@@ -65,6 +66,7 @@ def image_enc(mode, path, key):
     # create new filename
     cpath, filename = os.path.split(path)
     filename = os.path.splitext(filename)[0].replace("_e", "")+"_"+mode+".png"
+    print("Saved Image shape : ", processed_px.shape)
     cvt.save_image(processed_px, os.path.join(cpath, filename))
 
     # # close shared memory
@@ -77,8 +79,9 @@ def image_enc(mode, path, key):
 
 if __name__ == "__main__":
     start = perf_counter()
-    key = "000000001111111122222222"
-    image_enc('d', 'test2_e.png', key)
+    # key = "000000001111111122222222"
+    key = "11111111"
+    image_enc('d', 'download_e.png', key)
     end = perf_counter()
     print(f"elapsed : {end - start:.3f} second")
     # print(image_enc(sys.argv[1], sys.argv[2], sys.argv[3]))

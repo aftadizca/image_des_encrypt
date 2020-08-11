@@ -4,12 +4,18 @@ from PIL import Image
 
 def convert(path):
     img = Image.open(path)
-    if img.size[0] != 480:
+    print("Image size : ", img.size)
+    print("Image format:", img.format)
+    if img.size[0] > 480:
         h = int(img.size[1]/img.size[0]*480)
         if h % 2 == 0:
             img = img.resize((480, h))
         else:
             img = img.resize((480, h+1))
+    elif img.size[0] <= 480:
+        if img.size[0] % 2 != 0 and img.size[1] % 2 != 0:
+            img = img.resize((img.size[0]+1, img.size[1]+1))
+
     if img.format == "PNG":
         # print("Format PNG")
         return np.array(img, dtype=np.uint8)

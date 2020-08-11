@@ -4,7 +4,6 @@ from PIL import Image
 import convert as cvt
 import os
 import multiprocessing
-# from multiprocessing import shared_memory
 from time import perf_counter
 import sys
 from des import DesKey
@@ -27,7 +26,7 @@ def process_img(img_array, processed_px, i, qtyperprocess, k, mode, modulus=0):
 
 def image_enc(mode, path, key):
     img_array = cvt.convert(path)
-    print("Image shape : ", img_array.shape)
+    # print("Image shape : ", img_array.shape)
 
     # # initialize shared memory
     # shm = shared_memory.SharedMemory(
@@ -63,8 +62,8 @@ def image_enc(mode, path, key):
     for process in processes:
         process.join()
 
+    # create new filename
     cpath, filename = os.path.split(path)
-
     filename = os.path.splitext(filename)[0].replace("_e", "")+"_"+mode+".png"
     cvt.save_image(processed_px, os.path.join(cpath, filename))
 

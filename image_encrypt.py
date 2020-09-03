@@ -14,6 +14,7 @@ def process_img(img_array, processed_px, i, qtyperprocess, k, mode, modulus=0):
         ranges = range(i*qtyperprocess, i*qtyperprocess+modulus)
     else:
         ranges = range(i*qtyperprocess, i*qtyperprocess+qtyperprocess)
+
     for j in ranges:
         des = DesKey(bytes(key, encoding="utf-8"))
         if mode == 'e':
@@ -26,7 +27,7 @@ def process_img(img_array, processed_px, i, qtyperprocess, k, mode, modulus=0):
 
 
 def image_enc(mode, path, key):
-    img_array = cvt.convert(path)
+    img_array = cvt.convert(path, 200)
     print("Image shape : ", img_array.shape)
 
     # # initialize shared memory
@@ -81,7 +82,7 @@ if __name__ == "__main__":
     start = perf_counter()
     # key = "000000001111111122222222"
     key = "11111111"
-    image_enc('d', 'download_e.png', key)
+    image_enc('d', 'my_e.png', key)
     end = perf_counter()
     print(f"elapsed : {end - start:.3f} second")
     # print(image_enc(sys.argv[1], sys.argv[2], sys.argv[3]))

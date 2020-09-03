@@ -1,20 +1,28 @@
 import numpy as np
 from PIL import Image
+from time import perf_counter
 
 
-def convert(path):
+def convert(path, maxWidth=0):
     img = Image.open(path)
-    print("Image size : ", img.size)
-    print("Image format:", img.format)
-    if img.size[0] > 480:
-        h = int(img.size[1]/img.size[0]*480)
+    # print("Image size : ", img.size)
+    # print("Image format:", img.format)
+    if maxWidth > 0:
+        if maxWidth % 2 != 0:
+            maxWidth = maxWidth + 1
+        h = int(img.size[1]/img.size[0]*maxWidth)
         if h % 2 == 0:
-            img = img.resize((480, h))
+            img = img.resize((maxWidth, h))
         else:
-            img = img.resize((480, h+1))
-    elif img.size[0] <= 480:
-        if img.size[0] % 2 != 0 and img.size[1] % 2 != 0:
-            img = img.resize((img.size[0]+1, img.size[1]+1))
+            img = img.resize((maxWidth, h+1))
+    else:
+        w = img.size[0]
+        h = img.size[1]
+        if img.size[0] % 2 != 0:
+            w = w+1
+        if img.size[1] % 2 != 0:
+            h = h+1
+        img = img.resize((w, h))
 
     if img.format == "PNG":
         # print("Format PNG")
@@ -38,4 +46,7 @@ def getpixelvalue(path, x, y):
 
 
 if __name__ == "__main__":
+    t1 = perf_counter()
     save_image(convert("test2.jpg"), "convert.png")
+    t2 = perf_counter()
+    print(f"Time : {t2-t1:.2f} s")

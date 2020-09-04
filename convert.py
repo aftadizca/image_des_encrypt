@@ -4,7 +4,7 @@ from PIL import Image
 
 def convert(path):
     img = Image.open(path)
-    if img.size[0] != 480:
+    if img.size[0] > 480:
         h = int(img.size[1]/img.size[0]*480)
         if h % 2 == 0:
             img = img.resize((480, h))

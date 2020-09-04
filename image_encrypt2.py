@@ -43,7 +43,6 @@ def image_enc(mode, image_path, key):
     data = cvt.convert(image_path)
     X_shape = data.shape
     X = RawArray('B', X_shape[0] * X_shape[1] * X_shape[2])
-    print(X_shape)
     # Wrap X as an numpy array so we can easily manipulates its data.
     X_np = np.frombuffer(X, dtype=np.uint8).reshape(X_shape)
     # Copy data to our shared array.
@@ -58,12 +57,13 @@ def image_enc(mode, image_path, key):
     cpath, filename = os.path.split(image_path)
     filename = os.path.splitext(filename)[0].replace("_e", "")+"_"+mode+".png"
     cvt.save_image(np.array(result), os.path.join(cpath, filename))
+    return os.path.join(cpath, filename)
 
 
 # We need this check for Windows to prevent infinitely spawning new child
 # processes.
 if __name__ == '__main__':
     start = perf_counter()
-    image_enc('d', 'test_e.png', '12345678')
+    print(image_enc('d', 'test_e.png', '12345678'))
     end = perf_counter()
     print("elapsed : ", end - start, " second")

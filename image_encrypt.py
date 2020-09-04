@@ -82,7 +82,7 @@ if __name__ == "__main__":
     start = perf_counter()
     # key = "000000001111111122222222"
     key = "11111111"
-    image_enc('d', 'my_e.png', key)
+    image_enc('e', 'test.png', key)
     end = perf_counter()
     print(f"elapsed : {end - start:.3f} second")
     # print(image_enc(sys.argv[1], sys.argv[2], sys.argv[3]))

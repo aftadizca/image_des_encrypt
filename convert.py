@@ -5,6 +5,7 @@ from time import perf_counter
 
 def convert(path, maxWidth=0):
     img = Image.open(path)
+    format = img.format
     # print("Image size : ", img.size)
     # print("Image format:", img.format)
     if maxWidth > 0:
@@ -24,7 +25,7 @@ def convert(path, maxWidth=0):
             h = h+1
         img = img.resize((w, h))
 
-    if img.format == "PNG":
+    if format == "PNG":
         # print("Format PNG")
         return np.array(img, dtype=np.uint8)
     else:
@@ -47,6 +48,6 @@ def getpixelvalue(path, x, y):
 
 if __name__ == "__main__":
     t1 = perf_counter()
-    save_image(convert("test2.jpg"), "convert.png")
+    save_image(convert("test.jpg"), "test.png")
     t2 = perf_counter()
     print(f"Time : {t2-t1:.2f} s")

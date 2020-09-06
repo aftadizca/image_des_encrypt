@@ -41,7 +41,7 @@ def worker_func(i):
 
 
 def image_enc(mode, image_path, key):
-    data = cvt.convert(image_path)
+    data = cvt.convert(image_path, maxWidth=480)
     print(data.shape)
     X_shape = data.shape
     X = RawArray('B', X_shape[0] * X_shape[1] * X_shape[2])
